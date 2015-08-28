@@ -60,7 +60,7 @@ def convert_mth_strings ( mth_string ):
 user_agent = {'User-agent': 'Mozilla/5.0'}
 for url in urls:
     html = requests.get(url, headers = user_agent)
-    soup = BeautifulSoup(html.text)
+    soup = BeautifulSoup(html.text, 'lxml')
 # find all entries with the required class
     links = soup.findAll('a', href=True)
     for link in links:
