@@ -6,11 +6,8 @@ import os
 import re
 import scraperwiki
 import urllib2
-import requests
 from datetime import datetime
 from bs4 import BeautifulSoup
-from dateutil.parser import parse
-import itertools
 
 #### FUNCTIONS 1.0
 
