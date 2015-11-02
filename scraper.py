@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 #### IMPORTS 1.0
@@ -40,24 +39,26 @@ def validateFilename(filename):
 
 
 def validateURL(url):
-     try:
-        r = requests.get(url, allow_redirects=True, timeout=20)
+    try:
+        r = urllib2.urlopen(url)
         count = 1
-        while r.status_code == 500 and count < 4:
+        while r.getcode() == 500 and count < 4:
             print ("Attempt {0} - Status code: {1}. Retrying.".format(count, r.status_code))
             count += 1
-            r = requests.get(url, allow_redirects=True, timeout=20)
+            r = urllib2.urlopen(url)
         sourceFilename = r.headers.get('Content-Disposition')
+
         if sourceFilename:
             ext = os.path.splitext(sourceFilename)[1].replace('"', '').replace(';', '').replace(' ', '')
         else:
             ext = os.path.splitext(url)[1]
-        validURL = r.status_code == 200
-        validFiletype = ext in ['.csv', '.xls', '.xlsx']
+        validURL = r.getcode() == 200
+        validFiletype = ext.lower() in ['.csv', '.xls', '.xlsx']
         return validURL, validFiletype
-     except:
+    except:
         print ("Error validating URL.")
         return False, False
+
 
 def validate(filename, file_url):
     validFilename = validateFilename(filename)
@@ -91,18 +92,18 @@ urls = ["http://www.durham.gov.uk/article/2437/Payments-over-500", "http://www.d
         "http://www.durham.gov.uk/article/2438/Payments-to-suppliers-over-500-201314", "http://www.durham.gov.uk/article/2439/Payments-to-suppliers-over-500-201213"]
 errors = 0
 data = []
-user_agent = {'User-agent': 'Mozilla/5.0'}
+url = 'http://example.com'
+
 #### READ HTML 1.0
 
-
-
-for url in urls:
-    html = requests.get(url, headers = user_agent)
-    soup = BeautifulSoup(html.text, 'lxml')
+html = urllib2.urlopen(url)
+soup = BeautifulSoup(html, 'lxml')
 
 #### SCRAPE DATA
 
-
+for url in urls:
+    html = urllib2.urlopen(url)
+    soup = BeautifulSoup(html, 'lxml')
     links = soup.findAll('a', href=True)
     for link in links:
         csvfile = link.text.strip()
