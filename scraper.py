@@ -85,8 +85,9 @@ def convert_mth_strings ( mth_string ):
 #### VARIABLES 1.0
 
 entity_id = "E1302_CDUA_gov"
-urls = ["http://www.durham.gov.uk/article/2437/Payments-over-500", "http://www.durham.gov.uk/article/6252/Payments-to-suppliers-over-500-201415",
-        "http://www.durham.gov.uk/article/2438/Payments-to-suppliers-over-500-201314", "http://www.durham.gov.uk/article/2439/Payments-to-suppliers-over-500-201213"]
+urls = ["http://www.durham.gov.uk/article/2437/Payments-over-500", "http://www.durham.gov.uk/article/7771/Payments-to-suppliers-over-500-201516",
+        "http://www.durham.gov.uk/article/6252/Payments-to-suppliers-over-500-201415", "http://www.durham.gov.uk/article/2438/Payments-to-suppliers-over-500-201314",
+        "http://www.durham.gov.uk/article/2439/Payments-to-suppliers-over-500-201213"]
 errors = 0
 data = []
 url = 'http://example.com'
@@ -106,7 +107,7 @@ for url in urls:
         csvfile = link.text.strip()
         if 'CSV' in csvfile:
             url = link['href']
-            csvMth = csvfile.split('500')[-1].strip()[:3]
+            csvMth = csvfile.split('500')[-1].replace('-', '').strip()[:3]
             csvYr = csvfile.split('500')[-1].split('(')[0].strip()[-4:]
             csvMth = convert_mth_strings(csvMth.upper())
             data.append([csvYr, csvMth, url])
