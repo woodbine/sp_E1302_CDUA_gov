@@ -107,8 +107,8 @@ for url in urls:
         csvfile = link.text.strip()
         if 'CSV' in csvfile:
             url = link['href']
-            csvMth = csvfile.split('500')[-1].replace('-', '').strip()[:3]
-            csvYr = csvfile.split('500')[-1].split('(')[0].strip()[-4:]
+            csvMth = csvfile.split()[-4][:3]
+            csvYr = csvfile.split()[-3]
             csvMth = convert_mth_strings(csvMth.upper())
             data.append([csvYr, csvMth, url])
 
